@@ -104,11 +104,15 @@ public class TradeController {
 
 		// get min and max version of Trade
 
-		Trade minVersion = filteredTrades.stream().min(Comparator.comparing(Trade::getVersion))
-				.orElseThrow(NoSuchElementException::new);
+		Trade minVersion = filteredTrades
+							.stream()
+							.min(Comparator.comparing(Trade::getVersion))
+							.orElseThrow(NoSuchElementException::new);
 
-		Trade maxVersion = filteredTrades.stream().max(Comparator.comparing(Trade::getVersion))
-				.orElseThrow(NoSuchElementException::new);
+		Trade maxVersion = filteredTrades
+							.stream()
+							.max(Comparator.comparing(Trade::getVersion))
+							.orElseThrow(NoSuchElementException::new);
 
 		//If received trade version less than min trade version
 		if (inTrade.getVersion() < minVersion.getVersion()) {
