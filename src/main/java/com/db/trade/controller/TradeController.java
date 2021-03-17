@@ -69,8 +69,10 @@ public class TradeController {
 		List<Trade> trades = TradeStore.getInstance().getAllTrades();
 
 		// get all trades with matching trade id
-		List<Trade> filteredTrades = trades.parallelStream().filter(res -> inTrade.getTradeId() == res.getTradeId())
-				.collect(Collectors.toList());
+		List<Trade> filteredTrades = trades
+										.parallelStream()
+										.filter(res -> inTrade.getTradeId() == res.getTradeId())
+										.collect(Collectors.toList());
 		
 		// if new Trade
 		int listSize = filteredTrades.size();
@@ -105,12 +107,12 @@ public class TradeController {
 		// get min and max version of Trade
 
 		Trade minVersion = filteredTrades
-							.stream()
+							.parallelStream()
 							.min(Comparator.comparing(Trade::getVersion))
 							.orElseThrow(NoSuchElementException::new);
 
 		Trade maxVersion = filteredTrades
-							.stream()
+							.parallelStream()
 							.max(Comparator.comparing(Trade::getVersion))
 							.orElseThrow(NoSuchElementException::new);
 
