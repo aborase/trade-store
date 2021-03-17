@@ -112,13 +112,18 @@ public class TradeController {
 
 		//If received trade version less than min trade version
 		if (inTrade.getVersion() < minVersion.getVersion()) {
+			
 			throw new InvalidTradeException(ErrorMessage.INVALID_TRADE_VERSION);
+			
 		} else if (inTrade.getVersion() > maxVersion.getVersion()) {
+			
 			//if received trade version greater than max trade version then add new trade
 			this.addNewTrade(inTrade, listSize);
+			
 		} else {
 			// else update existing trade with matching trade id
 			Trade oldTrade = null;
+			
 			for (Trade t : TradeStore.getInstance().getAllTrades()) {
 				if (t.getTradeId() == inTrade.getTradeId() && t.getVersion() == inTrade.getVersion()) {
 					oldTrade = t;
@@ -153,19 +158,26 @@ public class TradeController {
 	}
 
 	/**
-	 * Method to process single mattching trade
+	 * Method to process single matching trade
 	 * @param trade
 	 * @throws InvalidTradeException
 	 */
 	private void processSingleTrade(List<Trade> trades, Trade inTrade, int listSize) throws InvalidTradeException {
 		Trade trade = trades.get(0);
+		
+		//If input trade version < existing trade version
 		if (inTrade.getVersion() < trade.getVersion()) {
+			
 			throw new InvalidTradeException(ErrorMessage.INVALID_TRADE_VERSION);
 
-		} else if (inTrade.getVersion() == trade.getVersion()) {			
+		} else if (inTrade.getVersion() == trade.getVersion()) {	
+			
+			//If input trade version = existing trade version then update existing trade
 			this.updateTrade(trade, inTrade);
 
-		} else {			
+		} else {		
+			
+			//Add new trade
 			this.addNewTrade(inTrade, listSize);
 			
 		}
