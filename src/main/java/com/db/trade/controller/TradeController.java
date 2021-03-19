@@ -5,6 +5,7 @@ package com.db.trade.controller;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
@@ -38,6 +39,47 @@ public class TradeController {
 
 		this.validateMaturityDate(trade);
 		this.process(trade);
+	}
+	
+	/**
+	 * Method to update trade status in store.
+	 */
+	public void updateTradeStatus() {		
+		System.out.println("start  updateTradeStatus");
+		List<Trade> trades = TradeStore.getInstance().getAllTrades();
+
+		// get all trades with trade status = N 
+		List<Trade> filteredTrades = trades
+										.parallelStream()
+										.filter(res -> res.getExpired() == 'N')
+										.collect(Collectors.toList());		
+		
+		if(filteredTrades.size() > 0) {
+			for(Trade trade : filteredTrades) {			
+				try {
+					//If maturity date less than current date 
+					Date maturityDate = new SimpleDateFormat(DATE_FORMAT).parse(trade.getDateMaturityDate());					
+					if(maturityDate.before(new Date())){
+						for(Trade t : trades) {						
+							if (t.getId() == trade.getId()) {							
+								t.setExpired('Y');
+								break;
+							}
+						}
+					}
+				} catch (ParseException e) {
+					
+					e.printStackTrace();
+				}
+				
+			}
+			
+			TradeStore.getInstance().updateTrade(trades);	
+		}
+		
+		System.out.println("end  updateTradeStatus");
+		
+		
 	}
 
 	/**
@@ -195,7 +237,8 @@ public class TradeController {
 	 * @param inTrade
 	 */
 	private void updateTrade(Trade trade, Trade inTrade) {
-		for (Trade t : TradeStore.getInstance().getAllTrades()) {
+		List<Trade> allTrades = TradeStore.getInstance().getAllTrades();
+		for (Trade t : allTrades) {
 			if (t.getId() == trade.getId()) {
 				t.setTradeId(inTrade.getTradeId());
 				t.setVersion(inTrade.getVersion());
@@ -207,6 +250,8 @@ public class TradeController {
 				break;
 			}
 		}
+		//update trades in trade store. This is just for simulation purpose we are updating whole store
+		TradeStore.getInstance().updateTrade(allTrades);
 	}	
 
 	/**

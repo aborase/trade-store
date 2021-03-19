@@ -53,8 +53,8 @@ public class TradeStore {
 	 * Method to update trade.
 	 * @param trade
 	 */
-	public void updateTrade(Trade trade) {
-		System.out.println("update trade to database");
+	public void updateTrade(List<Trade> trades) {		
+		this.tradeOrders = trades;
 	}
 
 }

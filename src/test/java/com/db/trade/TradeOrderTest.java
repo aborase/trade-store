@@ -133,6 +133,7 @@ class TradeOrderTest {
 		} catch (InvalidTradeException e) {
 			// e.printStackTrace();
 		}
+		
 
 	}
 

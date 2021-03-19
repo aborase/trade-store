@@ -3,6 +3,10 @@
  */
 package com.db.trade;
 
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
+
 import com.db.trade.bean.Trade;
 import com.db.trade.controller.TradeController;
 import com.db.trade.exception.InvalidTradeException;
@@ -30,8 +34,15 @@ public class TradeOrder {
 	 */
 	public static void main(String[] args) {
 		
-//		TradeController controller = new TradeController();
-//		List<Trade> trades = controller.getAllTrades();
+		// Automated task that will run every 5 seconds and it will update trade status if found expired
+		ScheduledExecutorService ses = Executors.newScheduledThreadPool(1);
+
+        Runnable task2 = (() -> {        	
+        	TradeController controller = new TradeController();		
+    		controller.updateTradeStatus();
+        });
+        
+        ses.scheduleAtFixedRate(task2, 5, 5, TimeUnit.SECONDS);
 
 	}
 
