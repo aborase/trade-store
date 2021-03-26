@@ -1,8 +1,6 @@
-package com.db.trade;
+package com.db.trade.impl;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -11,20 +9,21 @@ import java.util.List;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.MethodOrderer.OrderAnnotation;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestMethodOrder;
+import org.junit.jupiter.api.MethodOrderer.OrderAnnotation;
 
+import com.db.trade.TradeOrder;
 import com.db.trade.bean.Trade;
 import com.db.trade.exception.InvalidTradeException;
 import com.db.trade.store.TradeStore;
 
-
-
 @TestMethodOrder(OrderAnnotation.class)
 @DisplayName("Test class for Trade Store")
-class TradeOrderTest {
+class TradeOrderImplTest {
+
+
 
 	TradeOrder tradeOrder;
 	SimpleDateFormat formatter;
@@ -32,7 +31,7 @@ class TradeOrderTest {
 
 	@BeforeEach
 	void init() {
-		tradeOrder = new TradeOrder();
+		tradeOrder = new TradeOrderImpl();
 		formatter = new SimpleDateFormat(DATE_FORMAT);
 	}
 
