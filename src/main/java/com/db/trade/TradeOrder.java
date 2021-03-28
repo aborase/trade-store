@@ -19,7 +19,7 @@ public interface TradeOrder {
 	 * @param trade
 	 * @throws InvalidTradeException
 	 */
-	public void addTrade(Trade trade) throws InvalidTradeException;
+	void addTrade(Trade trade) throws InvalidTradeException;
 	
 
 }
