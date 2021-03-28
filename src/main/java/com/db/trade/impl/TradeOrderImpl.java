@@ -27,13 +27,14 @@ public class TradeOrderImpl implements TradeOrder{
 		
 		// Automated task that will run every 5 seconds and it will update trade status if found expired
 		ScheduledExecutorService ses = Executors.newScheduledThreadPool(1);
-
-        Runnable task2 = (() -> {        	
+		
+        Runnable task = (() -> {     
+        	System.out.println("Running schedular task ...");
         	TradeController controller = new TradeController();		
     		controller.updateTradeStatus();
         });
         
-        ses.scheduleAtFixedRate(task2, 5, 5, TimeUnit.SECONDS);
+        ses.scheduleAtFixedRate(task, 5, 5, TimeUnit.SECONDS);
 
 	}
 
